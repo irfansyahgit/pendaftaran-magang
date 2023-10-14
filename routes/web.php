@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ApplicationController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Download pdf
+Route::get('/download/ktp/{filename}', [PDFController::class, 'downloadKTP'])->name('download.ktp');
+Route::get('/download/ktm/{filename}', [PDFController::class, 'downloadKTM'])->name('download.ktm');
+Route::get('/download/proposal/{filename}', [PDFController::class, 'downloadProposal'])->name('download.proposal');
+Route::get('/download/permohonan/{filename}', [PDFController::class, 'downloadPermohonan'])->name('download.permohonan');
+
 
 Route::get('/', function () {
     return redirect('/login');

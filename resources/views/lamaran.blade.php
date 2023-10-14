@@ -92,7 +92,7 @@
                     <div class="row mb-3">
                         <label for="mulai" class="col-sm-2 col-form-label">Tanggal Mulai Magang</label>
                         <div class="col-sm-10">
-                        <input value="{{old('mulai')}}" type="text" class="form-control" name="mulai" id="mulai" style="background-color: white;">
+                        <input value="{{$tanggalSekarang}}" type="text" class="form-control" name="mulai" id="mulai" style="background-color: white;">
                         @error('mulai')
                             <div class="alert alert-danger small-alert m-0 p-2" role="alert">
                                 {{$message}}

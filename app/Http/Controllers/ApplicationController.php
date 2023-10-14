@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+
 
 class ApplicationController extends Controller
 {
@@ -24,7 +26,9 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        return view('lamaran');
+        $tanggalSekarang = Carbon::now()->format('d/m/Y');
+
+        return view('lamaran', ['tanggalSekarang' => $tanggalSekarang]);
     }
 
     /**
