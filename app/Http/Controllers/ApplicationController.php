@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -41,17 +42,61 @@ class ApplicationController extends Controller
             'lokasi' => 'required',
             'mulai' => 'required',
             'selesai' => 'required',
-            'berkasktp' => 'required',
-            'berkasktm' => 'required',
-            'berkaspermohonan' => 'required',
-            'berkasproposal' => 'required',
+            'berkasktp' => 'required|mimes:pdf|max:10000',
+            'berkasktm' => 'required|mimes:pdf|max:10000',
+            'berkaspermohonan' => 'required|mimes:pdf|max:10000',
+            'berkasproposal' => 'required|mimes:pdf|max:10000',
         ]);
-        $inputanForm['user_id'] = auth()->id();
+        // $inputanForm['user_id'] = auth()->id();
 
-        $newLamaran = Application::create($inputanForm);
+        $user = auth()->user();
 
-        // return 'hey';
-        return redirect("/lamaran/{$newLamaran->id}")->with('berhasil', 'Berhasil kirim lamaran!');
+        // ktp
+        $filenamektp = $user->id . '-' . uniqid() . '.pdf';
+        $ktp = $request->file('berkasktp');
+        Storage::putFileAs('public/ktp', $ktp, $filenamektp);
+        
+        // ktm
+        $filenamektm = $user->id . '-' . uniqid() . '.pdf';
+        $ktm = $request->file('berkasktm');
+        Storage::putFileAs('public/ktm', $ktm, $filenamektm);
+
+        // permohonan
+        $filenamePermohonan = $user->id . '-' . uniqid() . '.pdf';
+        $permohonan = $request->file('berkaspermohonan');
+        Storage::putFileAs('public/permohonan', $permohonan, $filenamePermohonan);
+
+        // proposal
+        $filenameProposal = $user->id . '-' . uniqid() . '.pdf';
+        $proposal = $request->file('berkasproposal');
+        Storage::putFileAs('public/proposal', $proposal, $filenameProposal);
+
+        // $newLamaran = Application::create($inputanForm);
+
+
+
+        $application = new Application();
+        $application->nama = $request->input('nama');
+        $application->nik = $request->input('nik');
+        $application->alamat = $request->input('alamat');
+        $application->telepon = $request->input('telepon');
+        $application->email = $request->input('email');
+        $application->univ = $request->input('univ');
+        $application->lokasi = $request->input('lokasi');
+        $application->mulai = $request->input('mulai');
+        $application->selesai = $request->input('selesai');
+        $application->berkasktp = $filenamektp;
+        $application->berkasktm = $filenamektm;
+        $application->berkaspermohonan = $filenamePermohonan;
+        $application->berkasproposal = $filenameProposal;
+        $application->user_id = auth()->id();
+        $application->save();
+
+        return redirect("/lamaran/{$application->id}")->with('berhasil', 'Berhasil kirim lamaran!');
+
+
+
+        // return redirect("/lamaran/{$newLamaran->id}")->with('berhasil', 'Berhasil kirim lamaran!');
     }
 
     /**
