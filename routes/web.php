@@ -31,7 +31,14 @@ Route::get('/lamaran', [ApplicationController::class, 'create'])->middleware(['a
 Route::post('/lamaran', [ApplicationController::class, 'store'])->middleware(['auth', 'verified']);
 Route::get('/lamaran/{lamaran}', [ApplicationController::class, 'show'])->middleware(['auth', 'verified']);
 
+
+Route::get('/lamaran/{lamaran}/edit', [ApplicationController::class, 'edit'])->middleware(['auth', 'verified']);
+Route::put('/lamaran{lamaran}', [ApplicationController::class, 'update'])->middleware(['auth', 'verified']);
+
+
 Route::get('/riwayat/{user:name}', [ApplicationController::class, 'index'])->middleware(['auth', 'verified'])->name('riwayat');
+Route::get('/data', [ApplicationController::class, 'index2'])->middleware(['auth', 'verified'])->name('data');
+Route::put('/lamaran/{lamaran}', [ApplicationController::class, 'update'])->middleware(['auth', 'verified']);
 
 
 Route::get('/dashboard', function () {

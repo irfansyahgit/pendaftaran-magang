@@ -81,7 +81,13 @@
                     <div class="row mb-3">
                         <label for="lokasi" class="col-sm-2 col-form-label">Lokasi/Tempat Magang</label>
                         <div class="col-sm-10">
-                            <input value="{{old('lokasi')}}" type="text" class="form-control" id="lokasi" name="lokasi">
+                            <!-- <input value="{{old('lokasi')}}" type="text" class="form-control" id="lokasi" name="lokasi"> -->
+                            <select class="form-select mb-3" aria-label="Default select example" name="institution_id">
+                                <option selected>Pilih Instansi</option>
+                                @foreach($institutions as $institution)
+                                <option value="{{$institution->id}}">{{$institution->nama}}</option>
+                                @endforeach
+                            </select>
                             @error('lokasi')
                             <div class="alert alert-danger small-alert m-0 p-2" role="alert">
                                 {{$message}}

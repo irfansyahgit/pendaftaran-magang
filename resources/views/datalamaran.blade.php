@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Riwayat') }}
+            {{ __('Data') }}
         </h2>
     </x-slot>
 
@@ -12,12 +12,12 @@
                   <div class="list-group">
                   @if(count($lamarans) > 0)
                     @foreach($lamarans as $lamaran)
-                    <a href="/lamaran/{{$lamaran->id}}" class="list-group-item list-group-item-action">Anda telah melamar di  
+                    <a href="/lamaran/{{$lamaran->id}}" class="list-group-item list-group-item-action">{{$lamaran->nama}} telah melamar di  
                     <strong>{{$lamaran->institution->nama}}</strong> pada {{$lamaran->created_at->format('j/n/Y')}}
                     </a>
                     @endforeach
                     @else
-                    Anda belum mengirimkan lamaran
+                    Belum ada lamaran yang dikirim
                     @endif
                   </div>
                 </div>

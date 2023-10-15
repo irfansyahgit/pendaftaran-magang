@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('telepon');
             $table->string('email');
             $table->string('univ');
-            $table->string('lokasi');
+            // $table->string('lokasi');
             $table->string('mulai');
             $table->string('selesai');
             $table->longText('keterangan')->nullable();
@@ -28,6 +28,9 @@ return new class extends Migration
             $table->string('berkaspermohonan');
             $table->string('berkasproposal');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('institution_id')->constrained()->onDelete('cascade');
+            $table->foreignId('stat_id')->constrained()->onDelete('cascade');
+            $table->longText('keteranganadmin')->nullable();
 
             $table->timestamps();
         });

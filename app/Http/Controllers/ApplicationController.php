@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Stat;
 use App\Models\User;
 use App\Models\Application;
+use App\Models\Institution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 
 class ApplicationController extends Controller
@@ -18,7 +20,15 @@ class ApplicationController extends Controller
     {
         // $lamarans = $user->lamarans()->get();
         // return $lamarans;
+
         return view('riwayat', ['lamarans' => $user->lamarans()->latest()->get()]);
+        
+    }
+
+    public function index2() {
+
+        $lamarans = Application::latest()->get();;
+        return view('datalamaran', ['lamarans' => $lamarans]);
     }
 
     /**
@@ -26,9 +36,10 @@ class ApplicationController extends Controller
      */
     public function create()
     {
+        $institutions = Institution::all();
         $tanggalSekarang = Carbon::now()->format('d/m/Y');
 
-        return view('lamaran', ['tanggalSekarang' => $tanggalSekarang]);
+        return view('lamaran', ['tanggalSekarang' => $tanggalSekarang, 'institutions' => $institutions]);
     }
 
     /**
@@ -43,7 +54,7 @@ class ApplicationController extends Controller
             'telepon' => 'required',
             'email' => 'required',
             'univ' => 'required',
-            'lokasi' => 'required',
+            'institution_id' => 'required',
             'mulai' => 'required',
             'selesai' => 'required',
             'berkasktp' => 'required|mimes:pdf|max:10000',
@@ -77,6 +88,14 @@ class ApplicationController extends Controller
 
         // $newLamaran = Application::create($inputanForm);
 
+        $keterangan = $request->input('keterangan');
+        if (empty($keterangan)) {
+            $keterangan = '-';
+        }
+        $keteranganAdmin;
+        if (empty($keteranganAdmin)) {
+            $keteranganAdmin = '-';
+        }
 
 
         $application = new Application();
@@ -86,14 +105,18 @@ class ApplicationController extends Controller
         $application->telepon = $request->input('telepon');
         $application->email = $request->input('email');
         $application->univ = $request->input('univ');
-        $application->lokasi = $request->input('lokasi');
+        // $application->lokasi = $request->input('lokasi');
+        $application->institution_id = $request->input('institution_id');
         $application->mulai = $request->input('mulai');
         $application->selesai = $request->input('selesai');
+        $application->keterangan = $keterangan;
+        $application->keteranganadmin = $keteranganAdmin;
         $application->berkasktp = $filenamektp;
         $application->berkasktm = $filenamektm;
         $application->berkaspermohonan = $filenamePermohonan;
         $application->berkasproposal = $filenameProposal;
         $application->user_id = auth()->id();
+        $application->stat_id = 1;
         $application->save();
 
         return redirect("/lamaran/{$application->id}")->with('berhasil', 'Berhasil kirim lamaran!');
@@ -114,17 +137,29 @@ class ApplicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Application $lamaran)
     {
-        //
+        $stats = Stat::all();
+
+        return view('editlamaran', ['lamaran' => $lamaran, 'stats' => $stats]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Application $lamaran)
     {
-        //
+        $inputanForm = $request->validate([
+            'stat' => 'required'
+        ]);
+
+        // $cek = $request->input('stat');
+        // dd($cek);
+        $lamaran->stat_id = $request->input('stat');
+        $lamaran->keteranganadmin = $request->input('keteranganadmin');
+        $lamaran->save();
+
+        return redirect("/lamaran/{$lamaran->id}")->with('berhasil', 'Berhasil edit lamaran!');
     }
 
     /**
