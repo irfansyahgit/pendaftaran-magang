@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Application;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -34,12 +35,14 @@ class ApplicationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(User $user)
     {
         $institutions = Institution::all();
         $tanggalSekarang = Carbon::now()->format('d/m/Y');
+        $user = auth()->user();
+        // dd($user);
 
-        return view('lamaran', ['tanggalSekarang' => $tanggalSekarang, 'institutions' => $institutions]);
+        return view('lamaran', ['tanggalSekarang' => $tanggalSekarang, 'institutions' => $institutions, 'user' => $user]);
     }
 
     /**

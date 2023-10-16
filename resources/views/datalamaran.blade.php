@@ -13,7 +13,7 @@
                   @if(count($lamarans) > 0)
                     @foreach($lamarans as $lamaran)
                     <a href="/lamaran/{{$lamaran->id}}" class="list-group-item list-group-item-action">{{$lamaran->nama}} telah melamar di  
-                    <strong>{{$lamaran->institution->nama}}</strong> pada {{$lamaran->created_at->format('j/n/Y')}}
+                    <strong>{{$lamaran->institution->nama}}</strong> pada {{$lamaran->created_at->format('j/n/Y')}}. Status: <strong>{{$lamaran->stat->nama}}</strong>
                     </a>
                     @endforeach
                     @else

@@ -18,7 +18,7 @@
                         <div class="col-sm-10">
                             <!-- <input value="{{$lamaran->stat->nama}}" type="text" class="form-control" id="stat" name="stat"> -->
                             <select class="form-select mb-3" aria-label="Default select example" name="stat">
-                                <option disabled>Pilih Status</option>
+                                <option disabled>-- Pilih Status --</option>
                                 @foreach($stats as $stat)
                                 <option value="{{$stat->id}}" {{ $stat->id == $lamaran->stat_id ? 'selected' : '' }}>{{$stat->nama}}</option>
                                 @endforeach

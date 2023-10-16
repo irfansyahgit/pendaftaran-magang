@@ -15,7 +15,7 @@
                     <div class="row mb-3">
                         <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                         <div class="col-sm-10">
-                            <input value="{{old('nama')}}" type="text" class="form-control" id="nama" name="nama">
+                            <input value="{{$user->name}}" type="text" class="form-control" id="nama" name="nama">
                             @error('nama')
                             <div class="alert alert-danger small-alert m-0 p-2" role="alert">
                                 {{$message}}
@@ -59,7 +59,7 @@
                     <div class="row mb-3">
                         <label for="email" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                            <input value="{{old('email')}}" type="email" class="form-control" id="email" name="email">
+                            <input value="{{$user->email}}" type="email" class="form-control" id="email" name="email">
                             @error('email')
                             <div class="alert alert-danger small-alert m-0 p-2" role="alert">
                                 {{$message}}
@@ -83,7 +83,7 @@
                         <div class="col-sm-10">
                             <!-- <input value="{{old('lokasi')}}" type="text" class="form-control" id="lokasi" name="lokasi"> -->
                             <select class="form-select mb-3" aria-label="Default select example" name="institution_id">
-                                <option selected>Pilih Instansi</option>
+                                <option selected>-- Pilih Instansi --</option>
                                 @foreach($institutions as $institution)
                                 <option value="{{$institution->id}}">{{$institution->nama}}</option>
                                 @endforeach
@@ -120,7 +120,7 @@
                     <div class="row mb-3">
                         <label for="keterangan" class="col-sm-2 col-form-label">Keterangan</label>
                         <div class="col-sm-10">
-                        <textarea class="form-control" id="keterangan" name="keterangan" style="height: 150px;">{{old('keterangan')}}</textarea>
+                        <textarea class="form-control" id="keterangan" name="keterangan" style="height: 150px;" placeholder="Silakan masukkan catatan di sini...">{{old('keterangan')}}</textarea>
                         </div>
                     </div>
                   <h6 class="mb-4">Berkas</h6>
